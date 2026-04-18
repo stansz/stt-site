@@ -1,57 +1,157 @@
+/* OGS Apps Navy Theme */
 :root {
-    --navy-dark: #0a1628;
-    --navy-light: #1a2744;
+    --navy-900: #0a1628;
+    --navy-800: #111d35;
+    --navy-700: #1a2744;
+    --navy-600: #243352;
     --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --text: #e8eaf0;
+    --text-dim: #8890a8;
 }
 
-.bg-navy-900 {
-    background-color: var(--navy-dark);
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: var(--navy-900);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 }
 
-.bg-navy-800 {
-    background-color: var(--navy-light);
+/* Mode buttons */
+.mode-btn {
+    background: var(--navy-700);
+    border: 1px solid var(--navy-600);
+    color: var(--text-dim);
+    padding: 0.4rem 1.2rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.mode-btn:hover { color: var(--text); border-color: var(--accent); }
+.mode-btn.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(59, 130, 246, 0.1);
 }
 
-.bg-navy-700 {
-    background-color: #2a3a5a;
+/* Mic button */
+.mic-button {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 3px solid var(--navy-600);
+    background: var(--navy-700);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-bottom: 1rem;
 }
-
-.bg-navy-600 {
-    background-color: #3a4a6a;
+.mic-button:hover {
+    border-color: var(--accent);
+    background: var(--navy-600);
+    transform: scale(1.05);
 }
-
-.bg-blue-500 {
-    background-color: var(--accent);
+.mic-button.recording {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.15);
+    animation: pulse 1.5s ease-in-out infinite;
 }
-
-.bg-blue-600 {
-    background-color: #2563eb;
-}
-
-.text-blue-400 {
-    color: #60a5fa;
-}
-
-#micButton {
-    transition: all 0.2s ease;
-}
-
-#micButton:active {
-    transform: scale(0.95);
-}
-
-#micButton.listening {
-    animation: pulse 1.5s infinite;
-}
-
 @keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
-    }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3); }
+    50% { box-shadow: 0 0 0 16px rgba(239, 68, 68, 0); }
+}
+
+/* Status text */
+.status-text {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+    min-height: 1.2em;
+}
+
+/* Progress bar */
+.progress-container {
+    width: 300px;
+    max-width: 80vw;
+    background: var(--navy-700);
+    border-radius: 9999px;
+    height: 6px;
+    overflow: hidden;
+    margin-bottom: 0.3rem;
+}
+.progress-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 9999px;
+    transition: width 0.3s;
+    width: 0%;
+}
+.progress-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+}
+
+/* Transcript box */
+.transcript-box {
+    width: 100%;
+    max-width: 600px;
+    min-height: 120px;
+    background: var(--navy-800);
+    border: 1px solid var(--navy-600);
+    border-radius: 12px;
+    padding: 1rem;
+}
+.transcript-content {
+    font-size: 1rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 80px;
+}
+.transcript-content:empty::before {
+    content: 'Transcript will appear here...';
+    color: var(--text-dim);
+    opacity: 0.5;
+}
+
+/* Action buttons */
+.action-btn {
+    background: var(--navy-700);
+    border: 1px solid var(--navy-600);
+    color: var(--text-dim);
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.action-btn:hover {
+    color: var(--text);
+    border-color: var(--accent);
+}
+
+/* Language select */
+.lang-select {
+    background: var(--navy-700);
+    border: 1px solid var(--navy-600);
+    color: var(--text);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    outline: none;
+}
+.lang-select:focus { border-color: var(--accent); }
+
+/* Utility */
+.hidden { display: none !important; }
+
+@media (max-width: 480px) {
+    .transcript-box { min-height: 100px; }
+    .mic-button { width: 80px; height: 80px; }
 }
