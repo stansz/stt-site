@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Text | OGS Apps</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body class="bg-navy-900 text-white min-h-screen flex flex-col">
+    <header class="bg-navy-800 p-4">
+        <h1 class="text-2xl font-bold">Speech to Text</h1>
+        <div class="flex justify-center mt-4">
+            <button id="modeToggle" class="bg-navy-700 hover:bg-navy-600 px-4 py-2 rounded">
+                Switch to Record Mode
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col items-center justify-center p-4">
+        <button id="micButton" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full w-24 h-24 flex items-center justify-center text-xl mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+        </button>
+
+        <div id="progress" class="w-full max-w-md bg-navy-700 rounded-full h-2.5 mb-4 hidden">
+            <div id="progressBar" class="bg-blue-500 h-2.5 rounded-full" style="width: 0%"></div>
+        </div>
+
+        <div class="w-full max-w-md bg-navy-800 rounded-lg p-4 mb-4">
+            <div id="transcript" class="min-h-32"></div>
+        </div>
+
+        <div class="flex gap-4">
+            <button id="copyButton" class="bg-navy-700 hover:bg-navy-600 px-4 py-2 rounded">Copy</button>
+            <button id="clearButton" class="bg-navy-700 hover:bg-navy-600 px-4 py-2 rounded">Clear</button>
+        </div>
+
+        <div class="mt-4">
+            <select id="languageSelect" class="bg-navy-700 text-white p-2 rounded">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="ja">Japanese</option>
+            </select>
+        </div>
+    </main>
+
+    <footer class="bg-navy-800 p-4 text-center">
+        <p>Powered by <span class="text-blue-400">🤗 Transformers.js</span></p>
+    </footer>
+
+    <script src="app.js" type="module"></script>
+</body>
+</html>
