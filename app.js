@@ -138,11 +138,9 @@ function initWorker() {
                 progressLabel.textContent = msg.file || 'Loading... ' + pct + '%';
                 break;
             case 'transcript':
-                if (msg.final) {
-                    fullTranscript += (fullTranscript ? ' ' : '') + msg.text;
+                if (msg.text && msg.text.trim()) {
+                    fullTranscript += (fullTranscript ? ' ' : '') + msg.text.trim();
                     transcript.textContent = fullTranscript;
-                } else {
-                    transcript.textContent = fullTranscript + (fullTranscript ? ' ' : '') + msg.text;
                 }
                 break;
             case 'error':
