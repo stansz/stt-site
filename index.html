@@ -8,13 +8,38 @@
     <link href="style.css" rel="stylesheet">
 </head>
 <body class="min-h-screen flex flex-col">
-    <header class="p-4 text-center">
-        <h1 class="text-2xl font-bold mb-3">🎙️ Speech to Text</h1>
+    <header class="p-4">
+        <div class="flex items-center justify-between mb-3">
+            <a href="https://ogsapps.cc" class="back-link">← OGS Apps</a>
+            <div class="flex items-center gap-2">
+                <h1 class="text-xl font-bold">🎙️ Speech to Text</h1>
+            </div>
+            <div style="width:80px"></div>
+        </div>
         <div class="flex justify-center gap-2">
-            <button id="modeRealtime" class="mode-btn active">Real-time</button>
-            <button id="modeRecord" class="mode-btn">Record</button>
+            <button id="modeRealtime" class="mode-btn">Real-time
+                <span class="info-trigger" data-info="realtime">ⓘ</span>
+            </button>
+            <button id="modeRecord" class="mode-btn active">Record</button>
+            <button id="modeUpload" class="mode-btn">Upload</button>
         </div>
     </header>
+
+    <!-- Model selector + status bar -->
+    <div id="modelStatus" class="model-status-bar">
+        <div class="model-status-left">
+            <span id="modelStatusIcon" class="model-status-icon pending">⏳</span>
+            <span id="modelStatusText" class="model-status-text">No model loaded</span>
+        </div>
+        <select id="modelSelect" class="model-select">
+            <option value="tiny">Tiny — 40MB (fastest)</option>
+            <option value="base">Base — 75MB (balanced)</option>
+            <option value="small">Small — 250MB (accurate)</option>
+        </select>
+        <span id="moonshineBadge" class="moonshine-badge hidden">🌙 Moonshine Base</span>
+        <button id="modelDownloadBtn" class="model-download-btn">Download</button>
+        <span class="info-trigger" data-info="model">ⓘ</span>
+    </div>
 
     <main class="flex-grow flex flex-col items-center justify-center p-4">
         <button id="micButton" class="mic-button" title="Click to start">
@@ -24,6 +49,7 @@
                 <line stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" x1="12" y1="19" x2="12" y2="23"/>
                 <line stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" x1="8" y1="23" x2="16" y2="23"/>
             </svg>
+            <span id="micBlocked" class="mic-blocked hidden">⚠️<small>Download model first</small></span>
         </button>
 
         <div id="status" class="status-text"></div>
@@ -32,6 +58,13 @@
             <div id="progressBar" class="progress-bar"></div>
         </div>
         <div id="progressLabel" class="progress-label"></div>
+
+        <!-- Upload area (hidden by default) -->
+        <div id="uploadArea" class="upload-area hidden">
+            <p>Drop an audio file here or click to browse</p>
+            <p class="upload-hint">Supports MP3, WAV, OGG, M4A, WebM</p>
+            <input type="file" id="fileInput" accept="audio/*" class="hidden">
+        </div>
 
         <div class="transcript-box">
             <div id="transcript" class="transcript-content"></div>
@@ -54,9 +87,51 @@
         </div>
     </main>
 
-    <footer class="p-3 text-center text-sm opacity-60">
-        Powered by 🤗 Transformers.js — All processing in your browser
+    <footer class="stt-footer">
+        <div class="footer-main">
+            <span>Powered by 🤗 <a href="https://huggingface.co/openai/whisper-tiny" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">Whisper</a> &amp; Transformers.js</span>
+            <span class="footer-dot">·</span>
+            <span class="footer-privacy">
+                🔒 100% Private
+                <span class="info-trigger" data-info="privacy">ⓘ</span>
+            </span>
+        </div>
+        <div class="footer-sub">
+            <a href="https://ogsapps.cc" class="footer-link">OGS Apps</a>
+            <span class="footer-dot">·</span>
+            <span>Client-side AI speech recognition</span>
+        </div>
     </footer>
+
+    <!-- Info modal (centered window) -->
+    <div id="infoModal" class="modal-overlay hidden">
+        <div class="modal-box info-modal-box">
+            <div class="modal-box-header">
+                <h2 id="infoModalTitle">Info</h2>
+                <button id="infoModalClose" class="info-panel-close">✕</button>
+            </div>
+            <div id="infoModalBody" class="info-modal-body"></div>
+        </div>
+    </div>
+
+    <!-- First-visit modal -->
+    <div id="welcomeModal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <h2>Welcome to Speech to Text 👋</h2>
+            <p>Choose an AI model size, download it, and start transcribing — <strong>entirely in your browser</strong>. No data is sent to any server.</p>
+            <ul>
+                <li><strong>Tiny</strong> (40MB) — Fastest, good for quick notes <em>Default</em></li>
+                <li><strong>Base</strong> (75MB) — Balanced speed and accuracy</li>
+                <li><strong>Small</strong> (250MB) — Most accurate, slower</li>
+            </ul>
+            <ul>
+                <li><strong>Record mode</strong> — Click mic, speak, click again to stop. <em>Most reliable.</em></li>
+                <li><strong>Real-time mode</strong> — Streams audio in chunks, transcribes live. <em>Experimental.</em></li>
+                <li><strong>Upload mode</strong> — Upload an audio file (MP3, WAV, etc.) for transcription.</li>
+            </ul>
+            <button id="welcomeClose" class="modal-close">Got it</button>
+        </div>
+    </div>
 
     <script type="module" src="app.js"></script>
 </body>
